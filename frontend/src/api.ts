@@ -6,7 +6,9 @@ export interface Message {
   text: string;
 }
 
-export async function fetchTranscript(chatId: string): Promise<Message[]> {
+export async function fetchTranscript(
+  chatId: string | null
+): Promise<Message[]> {
   const res = await fetch(`${API_HOST}/transcript/${chatId}`);
   if (res.status === 404) {
     return [];

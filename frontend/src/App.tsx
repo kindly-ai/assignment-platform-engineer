@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState, useLayoutEffect } from "react";
 import "./App.css";
 import { fetchTranscript, Message, sendMessage, startChat } from "./api";
 
@@ -18,22 +18,19 @@ function MessageComponent({
 }
 
 function Transcript() {
-  const [transcript, setTranscript] = useState<Message[]>();
+  const [transcript, setTranscript] = useState<Message[]>([]);
+  const chatId = localStorage.getItem("chatId");
 
-  const getTranscript = async () => {
-    const chatId = localStorage.getItem("chatId");
-    if (chatId) {
-      setTranscript(await fetchTranscript(chatId));
-    } else {
-      setTranscript([]);
-    }
-  };
+  useLayoutEffect(() => {
+    if (!chatId) return;
 
-  useEffect(() => {
-    if (!transcript) {
-      getTranscript();
-    }
-  }, []);
+    const getTranscript = async () => {
+      const transcriptArray = await fetchTranscript(chatId);
+      setTranscript(transcriptArray);
+    };
+
+    getTranscript();
+  });
 
   if (!transcript || transcript.length === 0) {
     return null;
@@ -64,7 +61,7 @@ function StartChat({ onStart }: { onStart: CallableFunction }) {
   );
 }
 
-function Composer() {
+function Composer({ setRefreshApp }) {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (event: FormEvent) => {
@@ -72,6 +69,7 @@ function Composer() {
 
     await sendMessage(message);
     setMessage("");
+    setRefreshApp((prevValue: boolean) => !prevValue);
   };
 
   return (
@@ -92,6 +90,7 @@ function Composer() {
 
 function App() {
   const [chatId, setChatId] = useState<string>();
+  const [, setRefreshApp] = useState(false);
 
   useEffect(() => {
     if (!chatId) {
@@ -108,7 +107,11 @@ function App() {
       <main>
         <Transcript />
         <hr />
-        {chatId ? <Composer /> : <StartChat onStart={setChatId} />}
+        {chatId ? (
+          <Composer setRefreshApp={setRefreshApp} />
+        ) : (
+          <StartChat onStart={setChatId} />
+        )}
       </main>
       <hr />
       <footer className="App-footer" />
