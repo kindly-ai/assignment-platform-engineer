@@ -46,6 +46,7 @@
   background-color: #61dafb;
   padding: 0.5em;
   border-radius: 1em;
+  margin: 0.1em;
 }
 
 .App-link {
@@ -81,4 +82,16 @@
   flex-direction: row-reverse;
   align-items: center;
   gap: 1em;
+}
+
+.icon {
+  font-size: x-large;
+}
+
+.Composer {
+  margin: 1em;
+}
+
+.Composer input {
+  font-size: large;
 }

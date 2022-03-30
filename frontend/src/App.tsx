@@ -16,11 +16,11 @@ function MessageComponent({
   const isUserSender = sender === Sender.USER;
   return (
     <div className={`Message ${isUserSender ? "fromUser" : "fromBot"}`}>
-      <p className="info">[{time}]</p>
+      <div className="info">[{time}]</div>
       <div
         className={`iconAndMessageContainer${isUserSender ? "User" : "Bot"}`}
       >
-        <span>{sender === Sender.USER ? "💁" : "🤖"}</span>
+        <span className="icon">{sender === Sender.USER ? "💁" : "🤖"}</span>
         <p className="text">{text}</p>
       </div>
     </div>
@@ -86,7 +86,7 @@ function Composer({ setRefreshApp }: { setRefreshApp: CallableFunction }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="Composer" onSubmit={handleSubmit}>
       <label htmlFor="message">
         <input
           type="text"
@@ -96,7 +96,7 @@ function Composer({ setRefreshApp }: { setRefreshApp: CallableFunction }) {
           onChange={(event) => setMessage(event.target.value)}
         />
       </label>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="✉️ Send" />
     </form>
   );
 }
