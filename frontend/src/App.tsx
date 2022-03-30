@@ -13,12 +13,16 @@ function MessageComponent({
 }: {
   message: Message;
 }) {
+  const isUserSender = sender === Sender.USER;
   return (
-    <div className="Message">
-      <p className="info">
-        [{time}]<span>{sender === Sender.USER ? "💁" : "🤖"}</span>
-      </p>
-      <p className="text">{text}</p>
+    <div className={`Message ${isUserSender ? "fromUser" : "fromBot"}`}>
+      <p className="info">[{time}]</p>
+      <div
+        className={`iconAndMessageContainer${isUserSender ? "User" : "Bot"}`}
+      >
+        <span>{sender === Sender.USER ? "💁" : "🤖"}</span>
+        <p className="text">{text}</p>
+      </div>
     </div>
   );
 }
