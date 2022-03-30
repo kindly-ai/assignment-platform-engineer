@@ -22,9 +22,9 @@ But this may be a poor choice of database for production,
 and it might be necessary to migrate the data into some other DB.
 
 #### Backend
-The backend uses the `pipenv` package manager, which should be installed for the global python with `pip install --global pipenv`.
+The backend uses the `pipenv` package manager, which should be installed for the global python with `pip install --user pipenv`.
 
-To install python dependencies locally:
+To install Python app dependencies locally:
 ```shell
 pipenv sync
 ```
@@ -35,7 +35,9 @@ pipenv run uvicorn backend.app:app --reload
 ```
 
 #### Frontend
-To install NodeJS dependencies locally:
+The frontend app uses `npm` to install the app dependencies in the `frontend/` directory.
+
+To install NodeJS app dependencies locally:
 ```shell
 cd frontend/
 npm ci
