@@ -17,7 +17,7 @@ function MessageComponent({
   );
 }
 
-function Transcript() {
+function Transcript({refreshTranscript}) {
   const [transcript, setTranscript] = useState<Message[]>([]);
   const chatId = localStorage.getItem("chatId");
 
@@ -30,7 +30,7 @@ function Transcript() {
     };
 
     getTranscript();
-  });
+  }, [refreshTranscript]);
 
   if (!transcript || transcript.length === 0) {
     return null;
@@ -90,7 +90,7 @@ function Composer({ setRefreshApp }) {
 
 function App() {
   const [chatId, setChatId] = useState<string>();
-  const [, setRefreshApp] = useState(false);
+  const [refreshApp, setRefreshApp] = useState(false);
 
   useEffect(() => {
     if (!chatId) {
@@ -105,7 +105,7 @@ function App() {
       </header>
       <hr />
       <main>
-        <Transcript />
+        <Transcript refreshTranscript={refreshApp} />
         <hr />
         {chatId ? (
           <Composer setRefreshApp={setRefreshApp} />
