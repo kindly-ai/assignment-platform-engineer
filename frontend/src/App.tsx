@@ -1,6 +1,12 @@
 import React, { FormEvent, useEffect, useState, useLayoutEffect } from "react";
 import "./App.css";
-import { fetchTranscript, Message, sendMessage, startChat } from "./api";
+import {
+  fetchTranscript,
+  Message,
+  Sender,
+  sendMessage,
+  startChat,
+} from "./api";
 
 function MessageComponent({
   message: { time, sender, text },
@@ -8,22 +14,25 @@ function MessageComponent({
   message: Message;
 }) {
   return (
-    <p>
-      <span>
-        [{time}] {sender}:
-      </span>
-      {text}
-    </p>
+    <div className="Message">
+      <p className="info">
+        [{time}]<span>{sender === Sender.USER ? "💁" : "🤖"}</span>
+      </p>
+      <p className="text">{text}</p>
+    </div>
   );
 }
 
-function Transcript({refreshTranscript}) {
+function Transcript({
+  chatId,
+  refreshTranscript,
+}: {
+  chatId: string;
+  refreshTranscript: boolean;
+}) {
   const [transcript, setTranscript] = useState<Message[]>([]);
-  const chatId = localStorage.getItem("chatId");
 
   useLayoutEffect(() => {
-    if (!chatId) return;
-
     const getTranscript = async () => {
       const transcriptArray = await fetchTranscript(chatId);
       setTranscript(transcriptArray);
@@ -61,7 +70,7 @@ function StartChat({ onStart }: { onStart: CallableFunction }) {
   );
 }
 
-function Composer({ setRefreshApp }) {
+function Composer({ setRefreshApp }: { setRefreshApp: CallableFunction }) {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (event: FormEvent) => {
@@ -101,19 +110,18 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Simple chat app</h1>
+        <h1>Silly chat</h1>
       </header>
-      <hr />
-      <main>
-        <Transcript refreshTranscript={refreshApp} />
-        <hr />
+      <main className="App-main">
         {chatId ? (
-          <Composer setRefreshApp={setRefreshApp} />
+          <>
+            <Transcript chatId={chatId} refreshTranscript={refreshApp} />
+            <Composer setRefreshApp={setRefreshApp} />
+          </>
         ) : (
           <StartChat onStart={setChatId} />
         )}
       </main>
-      <hr />
       <footer className="App-footer" />
     </div>
   );

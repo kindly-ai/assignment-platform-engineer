@@ -1,8 +1,16 @@
 const API_HOST = "http://localhost:8000";
 
+// eslint-disable-next-line no-shadow
+export enum Sender {
+  // eslint-disable-next-line no-unused-vars
+  USER = "USER",
+  // eslint-disable-next-line no-unused-vars
+  BOT = "BOT",
+}
+
 export interface Message {
   time: string;
-  sender: string;
+  sender: Sender;
   text: string;
 }
 
