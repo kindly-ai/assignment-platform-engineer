@@ -1,4 +1,4 @@
-const API_HOST = "http://localhost:8000";
+const API_HOST = process.env.API_HOST ?? "http://localhost:8000";
 
 // eslint-disable-next-line no-shadow
 export enum Sender {

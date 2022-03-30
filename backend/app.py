@@ -1,3 +1,5 @@
+import os
+
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException
@@ -6,7 +8,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 from backend.db import Sender, find_greeting, find_reply, get_transcript, record_message
 
-FRONTEND_HOST = "http://localhost:3000"
+FRONTEND_HOST = os.getenv("FRONTEND_HOST", "http://localhost:3000")
 
 app = FastAPI()
 
