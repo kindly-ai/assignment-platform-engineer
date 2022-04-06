@@ -1,4 +1,5 @@
 ## Scenario
+![screenshot.png](screenshot.png)
 This is a relatively simple prototype chatbot app someone has created.
 It consists of a python backend API server,
 an SQL database that the backend reads and writes to,

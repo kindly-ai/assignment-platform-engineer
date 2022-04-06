@@ -40,6 +40,11 @@
 .Message .info {
   color: #989898;
   font-size: smaller;
+  text-align: left;
+}
+
+.Message.fromUser .info {
+  text-align: right;
 }
 
 .Message .text {

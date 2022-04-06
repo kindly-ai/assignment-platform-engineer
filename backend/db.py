@@ -1,8 +1,10 @@
+import os
 from enum import Enum
 
 from sqlalchemy import create_engine, text
 
-engine = create_engine("sqlite:///silly_bot.sqlite", echo=True, future=True)
+DB_URL = os.getenv("DB_URL", "sqlite:///silly_bot.sqlite")
+engine = create_engine(DB_URL, echo=True, future=True)
 
 
 class Sender(str, Enum):
